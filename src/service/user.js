@@ -41,7 +41,7 @@ export const addUserAdminService = async(user) => {
             throw new Error("Usuario existente");
         } else {
             const passwordHash = await bcrypt.hash(password, 10);
-            await addUser({...user, password: passwordHash});
+            await addUserByAdmin({...user, password: passwordHash});
         }
     } catch (error) {
         throw new Error(error);

@@ -12,11 +12,12 @@ export const addUserByAdmin = async(user) => {
     return userSave.save();
 }
 
-// Obtener 1 usuario.
+// Obtener usuario mediante su username.
 export const getOneUserByUsername = async(userData) => {
     return User.findOne({username: userData});
 }
 
+// Obtener usuario mediante su email.
 export const getOneUserByEmail = (userData) => {
     return User.findOne({email: userData});
 }
