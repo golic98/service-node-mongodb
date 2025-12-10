@@ -21,3 +21,8 @@ export const getOneUserByUsername = async(userData) => {
 export const getOneUserByEmail = (userData) => {
     return User.findOne({email: userData});
 }
+
+// Obtener un usuario con rol normal.
+export const getOneUser = async(id) => {
+    return User.findById(id);
+}

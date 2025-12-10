@@ -3,47 +3,67 @@ import {
     addUserByAdmin,
     getOneUserByUsername,
     getOneUserByEmail,
+    getOneUser,
 } from "../repository/user.js";
 import bcrypt from "bcrypt";
 
-export const addUserService = async(user) => {
-    const {username, email, password} = user;
-    
+export const addUserService = async (user) => {
+    const { username, email, password } = user;
+
     try {
         const findUserByUsername = await getOneUserByUsername(username);
         const findUserByEmail = await getOneUserByEmail(email);
 
-        if(findUserByEmail) {
+        if (findUserByEmail) {
             throw new Error("Correo existente");
         }
-        if(findUserByUsername) {
+        if (findUserByUsername) {
             throw new Error("Usuario existente");
         } else {
             const passwordHash = await bcrypt.hash(password, 10);
-            await addUser({...user, password: passwordHash});
+            await addUser({ ...user, password: passwordHash });
         }
     } catch (error) {
         throw new Error(error);
     }
 }
 
-export const addUserAdminService = async(user) => {
-    const {username, email, password} = user;
-    
+export const addUserAdminService = async (user) => {
+    const { username, email, password } = user;
+
     try {
         const findUserByUsername = await getOneUserByUsername(username);
         const findUserByEmail = await getOneUserByEmail(email);
 
-        if(findUserByEmail) {
+        if (findUserByEmail) {
             throw new Error("Correo existente");
         }
-        if(findUserByUsername) {
+        if (findUserByUsername) {
             throw new Error("Usuario existente");
         } else {
             const passwordHash = await bcrypt.hash(password, 10);
-            await addUserByAdmin({...user, password: passwordHash});
+            await addUserByAdmin({ ...user, password: passwordHash });
         }
     } catch (error) {
         throw new Error(error);
+    }
+}
+
+export const getOneUserByNormalService = async (id) => {
+    try {
+        const user = await getOneUser(id);
+        if (user) {
+            return {
+                usr: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role
+                }
+            }
+        } 
+    } catch (error) {
+        throw new Error("No se pudo encontrar al usuario", error);
     }
 }
